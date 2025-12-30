@@ -1,3 +1,8 @@
+/*Each time user clicks Add to Cart
+Product gets pushed into cart array */
+
+const cart=[]
+
 const categories=[
     {
         name:"Tops",
@@ -43,6 +48,19 @@ const products={
     Books:[
         {name:"classic Novel",price:299},
         {name:"Self Help Bool",price:399}
+    ],
+    Jwellery:[
+        {name:"ear rings",price:120},
+        {name:"necklace",price:250},
+        {name:"bracelet",price:100}
+    ],
+    Shoes:[
+        {name:"sports shoes",price:1500},
+        {name:"leather boots",price:3000}
+    ],
+    Furniture:[
+        {name:"acrylic makeup organizer",price:450},
+        {name:"foldable shoe rack",price:600}
     ]
 }
 /*“I avoided hardcoding product categories in HTML.
@@ -56,16 +74,44 @@ categories.forEach(function(category){
 
     // implemented interactive UI elements using JavaScript event listeners.
     box.addEventListener("click",function(){
-        alert(`you clicked on $(category.name)`)
+        alert(`you clicked on ${category.name}`)
         productSection.innerHTML=""
 
         const selectedProducts=products[category.name]
 
         if(!selectedProducts)return
         selectedProducts.forEach(function(product){
-            const p=document.createElement("p")
-            p.innerText=`${product.name}- ₹${product.price}`
-            productSection.appendChild(p)
+           const  productDiv=document.createElement("div")
+           productDiv.className="product-card"
+
+           const title=document.createElement("h3")
+           title.innerText=product.name
+
+           const price=document.createElement("p")
+           price.innerText=`₹${product.price}`
+
+           const btn=document.createElement("button")
+           btn.innerText="Add to Cart"
+
+           btn.addEventListener("click", function(){
+              cart.push({
+                 name: product.name,
+                 price: product.price
+            })
+
+                console.log("Cart length:", cart.length)
+                console.log("First item name:", cart[0]?.name)
+                console.log("Full cart:", JSON.stringify(cart))
+
+    alert(`${product.name} added to cart`)
+})
+
+
+           productDiv.appendChild(title)
+           productDiv.appendChild(price)
+           productDiv.appendChild(btn)
+
+           productSection.appendChild(productDiv)
         })
     })
 
